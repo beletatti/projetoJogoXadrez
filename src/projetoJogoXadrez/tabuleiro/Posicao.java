@@ -2,20 +2,20 @@ package projetoJogoXadrez.tabuleiro;
 
 public class Posicao {
 
-	private int fileira;
+	private int linha;
 	private int coluna;
 	
-	public Posicao(int fileira, int coluna) {
-		this.fileira = fileira;
+	public Posicao(int linha, int coluna) {
+		this.linha = linha;
 		this.coluna = coluna;
 	}
 
-	public int getFileira() {
-		return fileira;
+	public int getLinha() {
+		return linha;
 	}
 
-	public void setFileira(int fileira) {
-		this.fileira = fileira;
+	public void setLinha(int fileira) {
+		this.linha = fileira;
 	}
 
 	public int getColuna() {
@@ -28,6 +28,6 @@ public class Posicao {
 	
 	@Override
 	public String toString() {
-		return fileira + ", " + coluna;
+		return linha + ", " + coluna;
 	}
 }
