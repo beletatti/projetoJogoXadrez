@@ -1,7 +1,11 @@
 package projetoJogoXadrez.app;
 
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
 import projetoJogoXadrez.xadrez.Color;
 import projetoJogoXadrez.xadrez.PecasDeXadrez;
+import projetoJogoXadrez.xadrez.PosicaoXadrez;
 
 public class UI {
 
@@ -24,6 +28,17 @@ public class UI {
 	public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
 	public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 
+	public static PosicaoXadrez lerPosicaoDaPecaXadrez(Scanner sc) {
+		try {
+			String s = sc.nextLine();
+			char coluna = s.charAt(0);
+			int linha = Integer.parseInt(s.substring(1));
+			return new PosicaoXadrez(coluna, linha);
+		} catch (Exception e) {
+			throw new InputMismatchException("Erro lendo a posição do xadrez.Valores válido são de a1 até h8.");
+		}
+	}
+
 	public static void printTabuleiro(PecasDeXadrez[][] pecas) {
 		for (int i = 0; i < pecas.length; i++) {
 			System.out.print((8 - i) + " ");
@@ -37,16 +52,14 @@ public class UI {
 
 	private static void printPecas(PecasDeXadrez peca) {
 		if (peca == null) {
-            System.out.print("-");
-        }
-        else {
-            if (peca.getColor() == Color.WHITE) {
-                System.out.print(ANSI_WHITE + peca + ANSI_RESET);
-            }
-            else {
-                System.out.print(ANSI_YELLOW + peca + ANSI_RESET);
-            }
-        }
-        System.out.print(" ");
+			System.out.print("-");
+		} else {
+			if (peca.getColor() == Color.WHITE) {
+				System.out.print(ANSI_WHITE + peca + ANSI_RESET);
+			} else {
+				System.out.print(ANSI_YELLOW + peca + ANSI_RESET);
+			}
+		}
+		System.out.print(" ");
 	}
 }
