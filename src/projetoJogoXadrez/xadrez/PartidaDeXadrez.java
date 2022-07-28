@@ -24,7 +24,7 @@ public class PartidaDeXadrez {
 		}
 		return mat;
 	}
-	
+
 	public PecasDeXadrez performarMovimentoXadrez(PosicaoXadrez procurarPosicao, PosicaoXadrez posicaoDestino) {
 		Posicao procurar = procurarPosicao.toPosicao();
 		Posicao destino = posicaoDestino.toPosicao();
@@ -32,7 +32,7 @@ public class PartidaDeXadrez {
 		Peca capturandoPeca = realizarMovimento(procurar, destino);
 		return (PecasDeXadrez) capturandoPeca;
 	}
-	
+
 	private Peca realizarMovimento(Posicao procura, Posicao destino) {
 		Peca p = tabuleiro.removePeca(procura);
 		Peca pecaCapturada = tabuleiro.removePeca(destino);
@@ -40,12 +40,15 @@ public class PartidaDeXadrez {
 		return pecaCapturada;
 	}
 
-	private void validacaoProcurarPosicao(Posicao procurar) {
-		if(!tabuleiro.haUmaPeca(procurar)) {
+	private void validacaoProcurarPosicao(Posicao posicao) {
+		if (!tabuleiro.haUmaPeca(posicao)) {
 			throw new XadrezException("Aqui não existe peça na devida posição procurada.");
 		}
+		if (!tabuleiro.peca(posicao).possivelFazerAlgumMovimento()) {
+			throw new XadrezException("Não a movimentos possíveis para a peça escolhida.");
+		}
 	}
-	
+
 	private void colocarNovaPeca(char coluna, int linha, PecasDeXadrez peca) {
 		tabuleiro.colocarPeca(peca, new PosicaoXadrez(coluna, linha).toPosicao());
 	}
