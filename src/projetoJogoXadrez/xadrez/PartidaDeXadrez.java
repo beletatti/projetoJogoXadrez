@@ -28,19 +28,25 @@ public class PartidaDeXadrez {
 	public PecasDeXadrez performarMovimentoXadrez(PosicaoXadrez origemPosicao, PosicaoXadrez destinoPosicao) {
 		Posicao origem = origemPosicao.toPosicao();
 		Posicao destino = destinoPosicao.toPosicao();
-		validacaoProcurarPosicao(origem);
+		validacaoOrigemPosicao(origem);
 		validacaoPosicaoDestino(origem, destino);
 		Peca capturandoPeca = realizarMovimento(origem, destino);
 		return (PecasDeXadrez) capturandoPeca;
 	}
 
-	private void validacaoProcurarPosicao(Posicao posicao) {
+	private void validacaoOrigemPosicao(Posicao posicao) {
 		if (!tabuleiro.haUmaPeca(posicao)) {
 			throw new XadrezException("Aqui não existe peça na devida posição procurada.");
 		}
 		if (!tabuleiro.peca(posicao).possivelFazerAlgumMovimento()) {
 			throw new XadrezException("Não a movimentos possíveis para a peça escolhida.");
 		}
+	}
+
+	public boolean[][] possiveisMovimentos(PosicaoXadrez posicaoDeOrigem) {
+		Posicao posicao = posicaoDeOrigem.toPosicao();
+		validacaoOrigemPosicao(posicao);
+		return tabuleiro.peca(posicao).possiveisMovimentos();
 	}
 
 	private Peca realizarMovimento(Posicao procura, Posicao destino) {

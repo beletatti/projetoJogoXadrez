@@ -22,13 +22,17 @@ public class Program {
 			UI.printTabuleiro(partidaDeXadrez.getPecas());
 			System.out.println();
 			System.out.print("Origem: ");
-			PosicaoXadrez procurar = UI.lerPosicaoDaPecaXadrez(sc);
+			PosicaoXadrez origem = UI.lerPosicaoDaPecaXadrez(sc);
+			
+			boolean[][] possiveisMovimentos = partidaDeXadrez.possiveisMovimentos(origem);
+			UI.clearScreen();
+			UI.printTabuleiro(partidaDeXadrez.getPecas(), possiveisMovimentos);
 			
 			System.out.println();
 			System.out.print("Destino: ");
 			PosicaoXadrez destino = UI.lerPosicaoDaPecaXadrez(sc);
 			
-			PecasDeXadrez capturandoPeca = partidaDeXadrez.performarMovimentoXadrez(procurar, destino);
+			PecasDeXadrez capturandoPeca = partidaDeXadrez.performarMovimentoXadrez(origem, destino);
 			}
 			catch (XadrezException e) {
 				System.out.println(e.getMessage());
