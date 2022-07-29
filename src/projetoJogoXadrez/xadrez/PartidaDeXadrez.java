@@ -25,12 +25,22 @@ public class PartidaDeXadrez {
 		return mat;
 	}
 
-	public PecasDeXadrez performarMovimentoXadrez(PosicaoXadrez procurarPosicao, PosicaoXadrez posicaoDestino) {
-		Posicao procurar = procurarPosicao.toPosicao();
-		Posicao destino = posicaoDestino.toPosicao();
-		validacaoProcurarPosicao(procurar);
-		Peca capturandoPeca = realizarMovimento(procurar, destino);
+	public PecasDeXadrez performarMovimentoXadrez(PosicaoXadrez origemPosicao, PosicaoXadrez destinoPosicao) {
+		Posicao origem = origemPosicao.toPosicao();
+		Posicao destino = destinoPosicao.toPosicao();
+		validacaoProcurarPosicao(origem);
+		validacaoPosicaoDestino(origem, destino);
+		Peca capturandoPeca = realizarMovimento(origem, destino);
 		return (PecasDeXadrez) capturandoPeca;
+	}
+
+	private void validacaoProcurarPosicao(Posicao posicao) {
+		if (!tabuleiro.haUmaPeca(posicao)) {
+			throw new XadrezException("Aqui não existe peça na devida posição procurada.");
+		}
+		if (!tabuleiro.peca(posicao).possivelFazerAlgumMovimento()) {
+			throw new XadrezException("Não a movimentos possíveis para a peça escolhida.");
+		}
 	}
 
 	private Peca realizarMovimento(Posicao procura, Posicao destino) {
@@ -40,12 +50,9 @@ public class PartidaDeXadrez {
 		return pecaCapturada;
 	}
 
-	private void validacaoProcurarPosicao(Posicao posicao) {
-		if (!tabuleiro.haUmaPeca(posicao)) {
-			throw new XadrezException("Aqui não existe peça na devida posição procurada.");
-		}
-		if (!tabuleiro.peca(posicao).possivelFazerAlgumMovimento()) {
-			throw new XadrezException("Não a movimentos possíveis para a peça escolhida.");
+	private void validacaoPosicaoDestino(Posicao origem, Posicao destino) {
+		if (!tabuleiro.peca(origem).possivelMovimento(destino)) {
+			throw new XadrezException("A peça escolhida não pode ser movida para a posição de destino.");
 		}
 	}
 
