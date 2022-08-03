@@ -9,10 +9,22 @@ import projetoJogoXadrez.xadrez.pecas.Torre;
 public class PartidaDeXadrez {
 
 	private Tabuleiro tabuleiro;
+	private int turno;
+	private Color jogadorAtual;
 
 	public PartidaDeXadrez() {
 		tabuleiro = new Tabuleiro(8, 8);
+		turno = 1;
+		jogadorAtual = Color.WHITE;
 		configInicial();
+	}
+
+	public int getTurno() {
+		return turno;
+	}
+
+	public Color getJogadorAtual() {
+		return jogadorAtual;
 	}
 
 	public PecasDeXadrez[][] getPecas() {
@@ -31,12 +43,16 @@ public class PartidaDeXadrez {
 		validacaoOrigemPosicao(origem);
 		validacaoPosicaoDestino(origem, destino);
 		Peca capturandoPeca = realizarMovimento(origem, destino);
+		proximoTurno();
 		return (PecasDeXadrez) capturandoPeca;
 	}
 
 	private void validacaoOrigemPosicao(Posicao posicao) {
 		if (!tabuleiro.haUmaPeca(posicao)) {
 			throw new XadrezException("Aqui não existe peça na devida posição procurada.");
+		}
+		if (jogadorAtual != ((PecasDeXadrez) tabuleiro.peca(posicao)).getColor()) {
+			throw new XadrezException("A peça escolhida não é sua.");
 		}
 		if (!tabuleiro.peca(posicao).possivelFazerAlgumMovimento()) {
 			throw new XadrezException("Não a movimentos possíveis para a peça escolhida.");
@@ -60,6 +76,11 @@ public class PartidaDeXadrez {
 		if (!tabuleiro.peca(origem).possivelMovimento(destino)) {
 			throw new XadrezException("A peça escolhida não pode ser movida para a posição de destino.");
 		}
+	}
+
+	private void proximoTurno() {
+		turno++;
+		jogadorAtual = (jogadorAtual == Color.WHITE) ? Color.BLACK : Color.WHITE;
 	}
 
 	private void colocarNovaPeca(char coluna, int linha, PecasDeXadrez peca) {
