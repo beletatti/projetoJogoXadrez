@@ -1,7 +1,5 @@
 package projetoJogoXadrez.tabuleiro;
 
-import java.util.Iterator;
-
 public abstract class Peca {
 
 	protected Posicao posicao;
@@ -28,7 +26,6 @@ public abstract class Peca {
 				if (mat[i][j]) {
 					return true;
 				}
-
 			}
 		}
 		return false;

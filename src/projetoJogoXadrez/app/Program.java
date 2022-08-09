@@ -38,6 +38,7 @@ public class Program {
 				if (capturandoPeca != null) {
 					capturados.add(capturandoPeca);
 				}
+
 			} catch (XadrezException e) {
 				System.out.println(e.getMessage());
 				sc.nextLine();
