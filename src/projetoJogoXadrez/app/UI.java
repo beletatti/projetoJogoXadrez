@@ -43,9 +43,14 @@ public class UI {
 		printCapturarPecas(capturados);
 		System.out.println();
 		System.out.println("Turno: " + partidaDeXadrez.getTurno());
-		System.out.println("Jogador em espera: " + partidaDeXadrez.getJogadorAtual());
-		if(partidaDeXadrez.getCheck()) {
-			System.out.println("CHECK !");
+		if (!partidaDeXadrez.getCheckMate()) {
+			System.out.println("Jogador em espera: " + partidaDeXadrez.getJogadorAtual());
+			if (partidaDeXadrez.getCheck()) {
+				System.out.println("CHECK !");
+			}
+		} else {
+			System.out.println("CHECK-MATE!");
+			System.out.println("Vencedor: " + partidaDeXadrez.getJogadorAtual());
 		}
 	}
 

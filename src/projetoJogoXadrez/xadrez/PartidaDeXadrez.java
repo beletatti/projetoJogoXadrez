@@ -16,6 +16,7 @@ public class PartidaDeXadrez {
 	private int turno;
 	private Color jogadorAtual;
 	private boolean check;
+	private boolean checkMate;
 
 	private List<Peca> pecasNoTabuleiro = new ArrayList<>();
 	private List<Peca> pecasCapturadas = new ArrayList<>();
@@ -34,9 +35,13 @@ public class PartidaDeXadrez {
 	public Color getJogadorAtual() {
 		return jogadorAtual;
 	}
-	
+
 	public boolean getCheck() {
 		return check;
+	}
+
+	public boolean getCheckMate() {
+		return checkMate;
 	}
 
 	public PecasDeXadrez[][] getPecas() {
@@ -55,14 +60,17 @@ public class PartidaDeXadrez {
 		validacaoOrigemPosicao(origem);
 		validacaoPosicaoDestino(origem, destino);
 		Peca capturandoPeca = realizarMovimento(origem, destino);
-		if(testCheck(jogadorAtual)) {
+		if (testCheck(jogadorAtual)) {
 			desfazerMovimento(origem, destino, capturandoPeca);
 			throw new XadrezException("Você não pode se colocar em check.");
 		}
-		
+
 		check = (testCheck(oponente(jogadorAtual))) ? true : false;
-		
-		proximoTurno();
+		if (testCheckMate(oponente(jogadorAtual))) {
+			checkMate = true;
+		} else {
+			proximoTurno();
+		}
 		return (PecasDeXadrez) capturandoPeca;
 	}
 
@@ -148,22 +156,44 @@ public class PartidaDeXadrez {
 		return false;
 	}
 
+	private boolean testCheckMate(Color color) {
+		if (!testCheck(color)) {
+			return false;
+		}
+
+		List<Peca> list = pecasNoTabuleiro.stream().filter(x -> ((PecasDeXadrez) x).getColor() == color)
+				.collect(Collectors.toList());
+
+		for (Peca p : list) {
+			boolean[][] mat = p.possiveisMovimentos();
+			for (int i = 0; i < tabuleiro.getLinhas(); i++) {
+				for (int j = 0; j < tabuleiro.getColunas(); j++) {
+					if (mat[i][j]) {
+						Posicao origem = ((PecasDeXadrez) p).getPosicaoXadrez().toPosicao();
+						Posicao destino = new Posicao(i, j);
+						Peca pecaCapturada = realizarMovimento(origem, destino);
+						boolean testCheck = testCheck(color);
+						desfazerMovimento(origem, destino, pecaCapturada);
+						if (!testCheck) {
+							return false;
+						}
+					}
+				}
+			}
+		}
+		return true;
+	}
+
 	private Color oponente(Color color) {
 		return (color == Color.WHITE) ? Color.BLACK : Color.WHITE;
 	}
 
 	private void configInicial() {
-		colocarNovaPeca('c', 2, new Torre(tabuleiro, Color.WHITE));
-		colocarNovaPeca('d', 2, new Torre(tabuleiro, Color.WHITE));
-		colocarNovaPeca('e', 2, new Torre(tabuleiro, Color.WHITE));
-		colocarNovaPeca('e', 1, new Torre(tabuleiro, Color.WHITE));
-		colocarNovaPeca('d', 1, new Rei(tabuleiro, Color.WHITE));
+		colocarNovaPeca('h', 7, new Torre(tabuleiro, Color.WHITE));
+		colocarNovaPeca('d', 1, new Torre(tabuleiro, Color.WHITE));
+		colocarNovaPeca('e', 1, new Rei(tabuleiro, Color.WHITE));
 
-		colocarNovaPeca('c', 7, new Torre(tabuleiro, Color.BLACK));
-		colocarNovaPeca('c', 8, new Torre(tabuleiro, Color.BLACK));
-		colocarNovaPeca('d', 7, new Torre(tabuleiro, Color.BLACK));
-		colocarNovaPeca('e', 7, new Torre(tabuleiro, Color.BLACK));
-		colocarNovaPeca('e', 8, new Torre(tabuleiro, Color.BLACK));
-		colocarNovaPeca('d', 8, new Rei(tabuleiro, Color.BLACK));
+		colocarNovaPeca('b', 8, new Torre(tabuleiro, Color.BLACK));
+		colocarNovaPeca('a', 8, new Rei(tabuleiro, Color.BLACK));
 	}
 }
