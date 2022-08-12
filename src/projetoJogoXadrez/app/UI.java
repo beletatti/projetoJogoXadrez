@@ -73,7 +73,7 @@ public class UI {
 			}
 			System.out.println();
 		}
-		System.out.println("  A B C D E F G H");
+		System.out.println(ANSI_GREEN + "  A B C D E F G H" + ANSI_RESET);
 	}
 
 	public static void printTabuleiro(PecasDeXadrez[][] pecas, boolean[][] possiveisMovimentos) {
@@ -108,15 +108,16 @@ public class UI {
 				.collect(Collectors.toList());
 		List<PecasDeXadrez> black = capturada.stream().filter(x -> x.getColor() == Color.BLACK)
 				.collect(Collectors.toList());
-		System.out.println("Peças capturadas: ");
+		System.out.println(ANSI_PURPLE + "Pecas capturadas: " + ANSI_RESET);
+		System.out.println();
 		System.out.print("Brancas: ");
-		System.out.println(ANSI_WHITE);
+		System.out.print(ANSI_WHITE);
 		System.out.println(Arrays.toString(white.toArray()));
-		System.out.println(ANSI_RESET);
+		System.out.print(ANSI_RESET);
 
-		System.out.print("Pretas: ");
-		System.out.println(ANSI_YELLOW);
+		System.out.print(ANSI_YELLOW + "Pretas: " + ANSI_RESET);
+		System.out.print(ANSI_YELLOW);
 		System.out.println(Arrays.toString(black.toArray()));
-		System.out.println(ANSI_RESET);
+		System.out.print(ANSI_RESET);
 	}
 }
