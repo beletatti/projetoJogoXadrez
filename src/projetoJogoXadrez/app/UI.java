@@ -84,7 +84,7 @@ public class UI {
 			}
 			System.out.println();
 		}
-		System.out.println("  A B C D E F G H");
+		System.out.println(ANSI_GREEN + "  A B C D E F G H" + ANSI_RESET);
 	}
 
 	private static void printPecas(PecasDeXadrez peca, boolean background) {
