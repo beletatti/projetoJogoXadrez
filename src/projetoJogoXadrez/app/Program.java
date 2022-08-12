@@ -38,6 +38,12 @@ public class Program {
 				if (capturandoPeca != null) {
 					capturados.add(capturandoPeca);
 				}
+				
+				if(partidaDeXadrez.getPromocao() != null) {
+					System.out.print("Digite a peca para promocao: (T/C/B/A): [ Digite com a Letra Maiuscula =) ]");
+					String type = sc.nextLine();
+					partidaDeXadrez.substituirPecaPromovida(type);
+				}
 
 			} catch (XadrezException e) {
 				System.out.println(e.getMessage());

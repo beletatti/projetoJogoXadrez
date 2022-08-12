@@ -1,5 +1,6 @@
 package projetoJogoXadrez.xadrez;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,6 +23,7 @@ public class PartidaDeXadrez {
 	private boolean check;
 	private boolean checkMate;
 	private PecasDeXadrez enPassantVulnerable;
+	private PecasDeXadrez promocao;
 
 	private List<Peca> pecasNoTabuleiro = new ArrayList<>();
 	private List<Peca> pecasCapturadas = new ArrayList<>();
@@ -53,6 +55,10 @@ public class PartidaDeXadrez {
 		return enPassantVulnerable;
 	}
 
+	public PecasDeXadrez getPromocao() {
+		return promocao;
+	}
+
 	public PecasDeXadrez[][] getPecas() {
 		PecasDeXadrez[][] mat = new PecasDeXadrez[tabuleiro.getLinhas()][tabuleiro.getColunas()];
 		for (int i = 0; i < tabuleiro.getLinhas(); i++) {
@@ -76,6 +82,16 @@ public class PartidaDeXadrez {
 
 		PecasDeXadrez pecaMovida = (PecasDeXadrez) tabuleiro.peca(destino);
 
+		// MOVIMENTO ESPECIAL PROMOÇÃO
+		promocao = null;
+		if (pecaMovida instanceof Peao) {
+			if ((pecaMovida.getColor() == Color.WHITE && destino.getLinha() == 0)
+					|| pecaMovida.getColor() == Color.BLACK && destino.getLinha() == 7) {
+				promocao = (PecasDeXadrez) tabuleiro.peca(destino);
+				promocao = substituirPecaPromovida("A");
+			}
+		}
+
 		check = (testCheck(oponente(jogadorAtual))) ? true : false;
 		if (testCheckMate(oponente(jogadorAtual))) {
 			checkMate = true;
@@ -91,6 +107,36 @@ public class PartidaDeXadrez {
 			enPassantVulnerable = null;
 		}
 		return (PecasDeXadrez) capturandoPeca;
+	}
+
+	public PecasDeXadrez substituirPecaPromovida(String type) {
+		if (promocao == null) {
+			throw new IllegalStateException("Não há peça a ser promovida.");
+		}
+		if (!type.equals("T") && !type.equals("C") && !type.equals("B") && !type.equals("A")) {
+			throw new InvalidParameterException("Tipo invalido para promocao.");
+		}
+
+		Posicao pos = promocao.getPosicaoXadrez().toPosicao();
+		Peca p = tabuleiro.removePeca(pos);
+		pecasNoTabuleiro.remove(p);
+
+		PecasDeXadrez novaPeca = novaPeca(type, promocao.getColor());
+		tabuleiro.colocarPeca(novaPeca, pos);
+		pecasNoTabuleiro.add(novaPeca);
+
+		return novaPeca;
+	}
+
+	private PecasDeXadrez novaPeca(String type, Color color) {
+		if (type.equals("B"))
+			return new Bispo(tabuleiro, color);
+		if (type.equals("C"))
+			return new Cavalo(tabuleiro, color);
+		if (type.equals("T"))
+			return new Torre(tabuleiro, color);
+		return new Rainha(tabuleiro, color);
+
 	}
 
 	private void validacaoOrigemPosicao(Posicao posicao) {
