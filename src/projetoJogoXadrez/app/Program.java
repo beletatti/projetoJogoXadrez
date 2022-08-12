@@ -38,10 +38,15 @@ public class Program {
 				if (capturandoPeca != null) {
 					capturados.add(capturandoPeca);
 				}
-				
-				if(partidaDeXadrez.getPromocao() != null) {
-					System.out.print("Digite a peca para promocao: (T/C/B/A): [ Digite com a Letra Maiuscula =) ]");
-					String type = sc.nextLine();
+
+				if (partidaDeXadrez.getPromocao() != null) {
+					System.out.print("Digite a peca para promocao (T/C/B/A): ");
+					String type = sc.nextLine().toUpperCase();
+					while (!type.equals("T") && !type.equals("C") && !type.equals("B") && !type.equals("A")) {
+						System.out.print("Valor invalido digite a peca para promocao (T/C/B/A): ");
+						type = sc.nextLine().toUpperCase();
+
+					}
 					partidaDeXadrez.substituirPecaPromovida(type);
 				}
 
@@ -53,7 +58,7 @@ public class Program {
 				sc.nextLine();
 			}
 		}
-		
+
 		UI.clearScreen();
 		UI.printPartida(partidaDeXadrez, capturados);
 	}
