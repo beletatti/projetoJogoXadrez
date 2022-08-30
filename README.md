@@ -7,7 +7,12 @@ como segue a imagem abaixo:
 
 ![xadrez](https://user-images.githubusercontent.com/48281531/187555034-b9689813-fcbf-44f5-afeb-5adf19f897b4.png)
 
+_REGRAS DA SIMULAÇÃO DO JOGO XADREZ_
 - O jogo contem todas as regras padrões de um jogo xadrez.
+- Para inicializar o jogo você precisa abrir seu terminal e entrar na pasta Bin do projeto, 
+e então digitar seguinte comando "java projetoJogoXadrez/app/Program".  
+
+ _REGRAS PARA MOVER UMA PEÇA_
 
 - Para mover uma peça no jogo de Xadrez, basta você digitar a coluna por número + letra por linha(Ex: a2) assim você estará
 indicando qual peça esta selecionando como origem, segue a imagem a baixo:
