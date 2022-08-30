@@ -1,7 +1,9 @@
 # projetoJogoXadrez
 Criação de uma simulação de um jogo de xadrez.
 
-a tela do jogo de Xadrez foi gerada no terminal, com as peças brancas de cor branca e as peças pretas de cor amarela, como segue a imagem abaixo:
+O jogo de Xadrez foi gerada no terminal, 
+com as peças brancas de cor branca e as peças pretas de cor amarela, 
+como segue a imagem abaixo:
 ![xadrez](https://user-images.githubusercontent.com/48281531/187555034-b9689813-fcbf-44f5-afeb-5adf19f897b4.png)
 
 - O jogo contem todas as regras padrões de um jogo xadrez.
