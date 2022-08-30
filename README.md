@@ -23,3 +23,9 @@ indicando qual peça esta selecionando como origem, segue a imagem a baixo:
 
 ![xadrez](https://user-images.githubusercontent.com/48281531/187556304-cf0a61e6-35cb-4155-83a8-6a61bf005386.png)
 
+Após cada jogada o turno é passado para próximo jogador, indicando a vez do jogador
+WHITE ou BLACK, como mostrado nos prints acima... Então só seguir as regras para mover as peças
+e assim será mostrado conforme a peça que selecionar os movimentos que ela podem ser executado, conforme a lógica de cada peça dentro de
+um jogo xadrez.
+
+_BOM JOGO E QUE VENÇA O MELHOR =)_ 
